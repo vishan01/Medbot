@@ -24,7 +24,7 @@ index_name="medical-bot"
 docsearch=Pinecone.from_existing_index(index_name, embeddings)
 
 
-PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+PROMPT=PromptTemplate(template=prompt.prompt_template, input_variables=["context", "question"])
 
 chain_type_kwargs={"prompt": PROMPT}
 
@@ -41,10 +41,10 @@ qa=RetrievalQA.from_chain_type(
     return_source_documents=True, 
     chain_type_kwargs=chain_type_kwargs)
 
-
+print("Enter your msg")
 msg=input()
 print(msg)
 print()
 
-result=qa({"query": input})
+result=qa({"query": msg})
 print("Response : ", result["result"])
