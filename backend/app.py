@@ -1,6 +1,7 @@
-from flask import Flask,render_template,request, flash
+from flask import Flask,render_template,request, jsonify
 import os
 from werkzeug.utils import secure_filename
+import bot
 
 app = Flask(__name__)
 app.secret_key="medbot"
@@ -51,6 +52,18 @@ def save():
 @app.route('/show')
 def show():
     return render_template('show.html',filenames=filenames)
+
+@app.route('/bot')
+def index():
+    return render_template('medbot.html')
+
+
+@app.route('/ask_question', methods=['POST'])
+def ask_question():
+    if request.method == 'POST':
+        question = request.json['question']
+        answer = bot.chat(question)
+        return jsonify({'answer': answer})
 
 if __name__=="__main__":
     app.run(debug=True)
