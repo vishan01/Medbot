@@ -216,7 +216,7 @@ const MedicalForm = () => {
       </form>
       
       <div className="form-info">
-        <p>For emergency situations, please call 911 or go to your nearest emergency room.</p>
+        <p>For emergency situations, please call 108 or go to your nearest emergency room.</p>
         <p>For questions about this form, contact our help desk at (555) 123-4567.</p>
       </div>
     </div>
