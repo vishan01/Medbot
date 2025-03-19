@@ -1,5 +1,5 @@
 import React from 'react';
-import UserRightBar from '../components/UserRightBar/UserRightBar.js';
+import UserRightBar from '../components/UserRightBar/UserRightBar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import './user.css';
 
