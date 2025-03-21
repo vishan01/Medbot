@@ -1,0 +1,29 @@
+```
+└── 📁backend
+    └── 📁static
+        └── 📁assets
+            └── Images
+        └── script.js
+        └── styles.css
+    └── 📁templates
+    └── app.py
+    └── requirements.txt
+└── 📁frontend
+    └── 📁public
+    └── 📁src
+        └── 📁pages
+        └── 📁components
+        └── 📁data
+        └── 📁assets
+            └── Images
+        └── App.css
+        └── App.jsx
+        └── index.css
+        └── main.jsx
+    └── eslint.config.js
+    └── index.html
+    └── package-lock.json
+    └── package.json
+    └── vite.config.js
+└── README.md
+```
