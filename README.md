@@ -53,9 +53,6 @@ medbot/
 │       └── index.js         # Application entry point
 │
 └── backend/                 # Flask backend application
-    ├── static/              # Static files for the backend
-    │   └── user_reports/    # Uploaded medical reports
-    ├── templates/           # HTML templates
     ├── app.py               # Main Flask application
     └── bot.py               # Chatbot implementation
 ```
