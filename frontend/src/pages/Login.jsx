@@ -1,15 +1,12 @@
 import { useEffect } from 'react';
-
+import LoginPage from '../components/Login/Login';
 function Login(){
-    const redirectToExternalSite = () => {
-        window.location.href = 'http://localhost:5000/login';
-    };
-
-    useEffect(() => {
-        redirectToExternalSite();
-    }, []); 
-
-    return null;
+    
+    return (
+    <>
+    <LoginPage/>
+    
+    </>);
 
 }
 export default Login;
