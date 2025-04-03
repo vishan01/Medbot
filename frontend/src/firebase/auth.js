@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./config";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
@@ -13,6 +15,7 @@ export const SignInGoogle = ()=>{signInWithPopup(auth, provider)
   // The signed-in user info.
   const user = result.user;
   // IdP data available using getAdditionalUserInfo(result)
+  return user;
   // ...
 }).catch((error) => {
   // Handle Errors here.
@@ -27,9 +30,31 @@ export const SignInGoogle = ()=>{signInWithPopup(auth, provider)
 }
 
 export const SignUpEmail = (email, password) => {
+createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    // ...
+    return user;
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
 
 }
 
 export const SignInEmail = (email, password) => {
-
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 }
