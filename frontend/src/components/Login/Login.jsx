@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import './Login.css';
 import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
 import { SignInEmail } from '../../firebase/auth';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/authSlice'; 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     let user;
@@ -16,12 +18,15 @@ const LoginPage = () => {
       console.log(e.message);
     }
     if(user){
-      console.log('Login successful:', user);
+      let data={
+      email:email,
+      name:user.displayName,
+      photoURL:user.photoURL,
+      uid:user.uid,
     }
-
-    console.log('Login attempt with:', { email, password, rememberMe });
+      dispatch(login(data));
+    }
   };
-
   return (
     <div className="login-container">
       <div className="login-card">
