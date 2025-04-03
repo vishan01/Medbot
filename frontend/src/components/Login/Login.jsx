@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import './Login.css';
-import loginImage from '../../assets/login-image.png'; // Assuming you have this image
-
+import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
+import { SignInEmail } from '../../firebase/auth';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    let user;
+    try{
+      user=await SignInEmail(email, password);
+    }catch(e){
+      console.log(e.message);
+    }
+    if(user){
+      console.log('Login successful:', user);
+    }
+
     console.log('Login attempt with:', { email, password, rememberMe });
   };
 
