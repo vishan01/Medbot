@@ -3,6 +3,7 @@ import './Login.css';
 import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
 import { SignInEmail } from '../../firebase/auth';
 import { useDispatch } from 'react-redux';
+import {Link} from 'react-router-dom';
 import { login } from '../../features/authSlice'; 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -93,7 +94,7 @@ const LoginPage = () => {
           </form>
           
           <p className="signup-prompt">
-            Don't have an account? <a href="/signup">Sign up</a>
+            Don't have an account? <Link to="/register">Sign up</Link>
           </p>
         </div>
       </div>
