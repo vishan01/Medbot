@@ -2,10 +2,14 @@ import React, { use, useEffect, useState } from 'react';
 import './Login.css';
 import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
 import { SignInEmail } from '../../firebase/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { login } from '../../features/authSlice'; 
 const LoginPage = () => {
+  const user=useSelector((state) => state.auth.userData);
+  if(user){
+    window.location.href='/user';
+  }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);

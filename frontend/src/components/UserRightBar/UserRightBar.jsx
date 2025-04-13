@@ -8,11 +8,9 @@ const API_BASE_URL = 'http://localhost:8000'; // Your Flask backend URL
 function Login() {
   const handleLogin = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/auth/google`);
+      const response = await axios.get(`${API_BASE_URL}/auth/google`); // Update the Redux store to show fitness data
       window.location.href = response.data.authUrl; // Redirect to Google's auth URL
-      const dispatch= useDispatch();
-      dispatch(setUserFitnessData(true)); // Update the Redux store to show fitness data
-
+      
     } catch (error) {
       console.error('Error initiating Google login:', error);
     }
