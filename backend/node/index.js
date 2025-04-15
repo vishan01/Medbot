@@ -111,7 +111,7 @@ app.get("/fetch-data", async (req, res) => {
     const profilePhoto = userProfileData.profilePhotoUrl;
     const userId = userProfileData.userID;
 
-    const sevenDaysInMillis = 14 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const sevenDaysInMillis = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
     const startTimeMillis = Date.now() - sevenDaysInMillis; // Start time is 7 days ago
     const endTimeMillis = Date.now() + 24 * 60 * 60 * 1000; // End time is the current time
 

@@ -12,8 +12,16 @@ import View from './pages/View.jsx';
 import ChatbotPage from './pages/ChatbotPage.jsx';
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 function App() {
+  const theme = {
+    // ... your system-ui theme
+    config: {
+      useSystemColorMode: false, // or true
+      initialColorMode: "light", // or "dark"
+      cssVarPrefix: "chakra", // any string
+    }
+  }
   return (
-    <ChakraProvider value={defaultSystem}>
+    <ChakraProvider theme={theme} value={defaultSystem}>
     <BrowserRouter>
 
       <Routes>

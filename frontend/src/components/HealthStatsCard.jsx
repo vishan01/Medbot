@@ -5,6 +5,7 @@ import {
   Text,
   Icon,
   useToken,
+  
 } from "@chakra-ui/react";
 import {
   GiBodyHeight,
@@ -55,7 +56,7 @@ const HealthStatsCard = ({ weight, height, BP, step, heart }) => {
           Height
         </Text>
         
-          <h1 color="white">{minimizedheight} cm</h1>
+          <Text color="white">{minimizedheight} cm</Text>
         
       </AnimatedBox>
 
@@ -82,7 +83,7 @@ const HealthStatsCard = ({ weight, height, BP, step, heart }) => {
           Weight
         </Text>
         
-          <h1 color="white">{parseInt(weight, 10)} kg</h1>
+          <Text color="white">{parseInt(weight, 10)} kg</Text>
         
       </AnimatedBox>
 
@@ -110,12 +111,12 @@ const HealthStatsCard = ({ weight, height, BP, step, heart }) => {
         </Text>
         
           {/* //120/80 */}
-          <h1 color="white">
+          <Text color="white">
             {/* {
             BP[0]? JSON.stringify(BP[0] + "/" + BP[1]) : 120/80
             } */}
           120/80 mmHg
-          </h1>
+          </Text>
         
       </AnimatedBox>
       <AnimatedBox
@@ -141,7 +142,7 @@ const HealthStatsCard = ({ weight, height, BP, step, heart }) => {
           Step Count{" "}
         </Text>
         
-          <h1 color="white">{formattedNumber}</h1>
+          <Text color="white">{formattedNumber}</Text>
         
       </AnimatedBox>
       <Flex justify="center" align="center" gap={4}>
@@ -168,7 +169,7 @@ const HealthStatsCard = ({ weight, height, BP, step, heart }) => {
             Heart Rate
           </Text>
           
-            <h1 color="white">{heart} bpm</h1>
+            <Text color="white">{heart} bpm</Text>
           
         </AnimatedBox>
       </Flex>
