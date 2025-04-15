@@ -6,7 +6,6 @@ import './user.css';
  function User(){
     return(
         <div className='MainHomeContainer'>
-            <Sidebar/>
             <UserRightBar/>
         </div>
     );

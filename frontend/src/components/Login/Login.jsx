@@ -1,5 +1,6 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
+import axios from 'axios';
 import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
 import { SignInEmail } from '../../firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +8,13 @@ import {Link} from 'react-router-dom';
 import { login } from '../../features/authSlice'; 
 const LoginPage = () => {
   const user=useSelector((state) => state.auth.userData);
+  const trackLogin=async () => {
+    const response = await axios.get("http://localhost:8000/auth/google");
+    console.log(response.data.authUrl);
+    window.location.href = response.data.authUrl;
+  }
   if(user){
-    window.location.href='/user';
+    trackLogin();
   }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
