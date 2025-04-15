@@ -101,7 +101,7 @@ const Dashboard = () => {
               <Flex align="center">
                 
                 <Text fontSize="xl" fontWeight="bold">
-                  Fitness Tracker
+                  MEDBOT AI
                 </Text>
               </Flex>
               <Flex align="center">

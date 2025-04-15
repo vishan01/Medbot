@@ -144,8 +144,12 @@ app.get("/fetch-data", async (req, res) => {
             dataTypeName: "com.google.body.fat.percentage",
           },
           {
-            dataTypeName: "com.google.menstruation",
+            dataTypeName: "com.google.calories.expended",
           },
+          {
+            dataTypeName: "com.google.heart_minutes",
+          },
+          
         ],
         bucketByTime: { durationMillis: 86400000 }, // Aggregate data in daily buckets
         startTimeMillis,

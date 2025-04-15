@@ -10,10 +10,10 @@ import User from './pages/User.jsx';
 import Upload from './pages/Upload.jsx';
 import View from './pages/View.jsx';
 import ChatbotPage from './pages/ChatbotPage.jsx';
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider value={defaultSystem}>
     <BrowserRouter>
 
       <Routes>
