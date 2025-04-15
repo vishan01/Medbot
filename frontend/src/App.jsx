@@ -10,15 +10,17 @@ import User from './pages/User.jsx';
 import Upload from './pages/Upload.jsx';
 import View from './pages/View.jsx';
 import ChatbotPage from './pages/ChatbotPage.jsx';
-
+import { ChakraProvider } from "@chakra-ui/react";
 function App() {
   return (
+    <ChakraProvider>
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
-        <Route path='/User' element={<User/>} />
+        <Route path='/user' element={<User/>} />
         <Route path='/GetHelp' element={<GetHelp/>} />
         <Route path='/ProvideHelp' element={<ProvideHelp/>} />
         <Route path='/Upload' element={<Upload/>} />
@@ -26,6 +28,7 @@ function App() {
         <Route path='/ChatbotPage' element={<ChatbotPage/>} />
       </Routes>
     </BrowserRouter>
+    </ChakraProvider>
   );
 }
 
