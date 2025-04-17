@@ -4,12 +4,24 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 from dateutil.parser import parse
+from flask_cors import CORS
+import google.generativeai as genai
+from bot import SYSTEM_INSTRUCTION
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY environment variable not set.")
+
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel('gemini-2.0-flash')
 
 account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
 auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+msg_sid=os.environ.get("TWILIO_MSG_ID")
 twilio_phone_number = os.environ.get("TWILIO_PHONE_NUMBER")
 
 if not account_sid:
@@ -54,9 +66,9 @@ def send_sms():
             return jsonify({'status': 'error', 'message': 'Scheduled time must be in the future'}), 400
         message = client.messages.create(
             to=phone_number,
-            from_=twilio_phone_number,
+            from_=msg_sid,
             body=message_body,
-            schedule_type='scheduled',  # Important:  set the schedule type.
+            schedule_type='fixed',  # Important:  set the schedule type.
             send_at=send_at
         )
 
@@ -67,6 +79,21 @@ def send_sms():
         error_message = str(e)
         print(f"Error sending SMS: {error_message}")
         return jsonify({'status': 'error', 'message': error_message}), 500
+
+@app.route('/medbot', methods=['POST'])
+def medbot():
+    data = request.get_json()
+    if not data or 'query' not in data:
+        return jsonify({"error": "Missing 'query' in request body."}), 400
+
+    user_query = data['query']
+    prompt_with_context = f"{SYSTEM_INSTRUCTION}\n\nUser Query: {user_query}"
+
+    try:
+        response = model.generate_content(prompt_with_context)
+        return jsonify({"response": response.text})
+    except Exception as e:
+        return jsonify({"error": f"Error generating response: {str(e)}"}), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

@@ -23,6 +23,9 @@ const ReportandForm = () => {
   const [fitnessData, setFitnessData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [storedFiles, setStoredFiles] = useState([]);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
+  const [dateTime, setDateTime] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,6 +78,61 @@ const ReportandForm = () => {
     }
   };
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    // Basic validation
+    let hasErrors = false;
+    if (!phoneNumber || phoneNumber.length < 10) {
+      hasErrors = true;
+    }
+    if (!message) {
+      hasErrors = true;
+    }
+    if (!dateTime) {
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      console.error("Please fill in all fields correctly.");
+      alert("Please fill in all fields correctly.");
+      return;
+    }
+
+    try {
+      // Send data to your Flask backend (replace with your actual API endpoint)
+      const response = await fetch('http://localhost:5000/send_sms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone_number: phoneNumber,
+          message: message,
+          send_at: dateTime,
+        }),
+      });
+      console.log(response); // Log the response for debugging
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send SMS');
+      }
+
+      const result = await response.json();
+      console.log('SMS sent successfully:', result); // Log the response
+
+      // Optionally, reset the form or show a success message
+      setPhoneNumber('');
+      setMessage('');
+      setDateTime('');
+      alert(`SMS sent to ${phoneNumber} with message: ${message} at ${dateTime}`);
+    } catch (error) {
+      setSubmitError(error.message || 'An error occurred while sending the SMS.');
+      console.error('Error sending SMS:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+    
+  }
   const handleFileDelete = (index) => {
     const updatedFiles = storedFiles.filter((_, i) => i !== index);
     localStorage.setItem("storedFiles", JSON.stringify(updatedFiles));
@@ -148,9 +206,14 @@ const ReportandForm = () => {
                 <Box className="p-8 rounded-xl w-full max-w-4xl mb-4">
                   <Text fontSize="3xl" fontWeight="bold" mb={6} color="gray.700" textAlign="left">Send an SMS</Text>
                   <Stack spacing={6}>
-                    <input placeholder="Enter phone number" type="tel" className="w-full bg-gray-100 p-3 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500" />
-                    <textarea placeholder="Enter your message" rows={3} className="w-full bg-gray-100 p-3 rounded-lg border border-gray-300 text-gray-800 resize-y focus:outline-none focus:ring-2 focus:ring-teal-500" />
-                    <Button className="bg-green-400" size="lg" width="full">Send SMS</Button>
+                    <input onChange={(e)=>setPhoneNumber(e.target.value)} placeholder="Enter phone number" type="tel" className="w-full bg-gray-100 p-3 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+                    <textarea onChange={(e)=>setMessage(e.target.value)} placeholder="Enter your message" rows={3} className="w-full bg-gray-100 p-3 rounded-lg border border-gray-300 text-gray-800 resize-y focus:outline-none focus:ring-2 focus:ring-teal-500" />
+                    <input
+                    onChange={(e)=>setDateTime(e.target.value)}
+        type="datetime-local"
+        className="w-full bg-gray-100 p-3 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500"
+      />
+                    <Button onClick={handleFormSubmit} className="bg-green-400" size="lg" width="full">Send SMS</Button>
                   </Stack>
                 </Box>
 

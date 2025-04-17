@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Flex, Button, Text, Stack, Link, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import HealthStatsCard from "./HealthStatsCard.jsx";
-import ActivityCard from "./ActivityCard.jsx";
-import FatGraph from "./FatGraph.jsx";
+import ReactMarkdown from "react-markdown";
 import Loading from "./Loader.jsx";
 import {
   LogOut,
@@ -16,6 +14,12 @@ import {
   BotMessageSquare
 } from "lucide-react";
 import { ChakraProvider } from "@chakra-ui/react";
+function MarkdownDisplay({ markdownText }) {
+  return (
+    <ReactMarkdown>{markdownText}</ReactMarkdown>
+  );
+}
+
 const Chating = () => {
   const [fitnessData, setFitnessData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -68,17 +72,40 @@ const Chating = () => {
   ]);
   const [input, setInput] = useState("");
 
+
+
   const handleSend = () => {
     if (input.trim() === "") return;
-
+  
     const userMessage = { sender: "user", text: input };
-    const botReply = {
-      sender: "bot",
-      text: "Thanks for your message! (You can add real logic here.)",
-    };
-
-    setMessages((prev) => [...prev, userMessage, botReply]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+  
+    fetch('http://localhost:5000/medbot', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query: input }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.response) {
+        const botReply = { sender: "bot", text: data.response };
+        setMessages((prev) => [...prev, botReply]);
+      } else if (data && data.error) {
+        const botError = { sender: "bot", text: `Error: ${data.error}` };
+        setMessages((prev) => [...prev, botError]);
+      } else {
+        const botError = { sender: "bot", text: "Something went wrong with the bot response." };
+        setMessages((prev) => [...prev, botError]);
+      }
+    })
+    .catch(error => {
+      console.error("Error sending message to bot:", error);
+      const botError = { sender: "bot", text: "Failed to communicate with the bot." };
+      setMessages((prev) => [...prev, botError]);
+    });
   };
 
   const handleKeyDown = (e) => {
@@ -303,7 +330,7 @@ const Chating = () => {
                               : "bg-gray-200 text-black rounded-bl-none"
                           }`}
                         >
-                          {msg.text}
+                          <MarkdownDisplay markdownText={msg.text}></MarkdownDisplay>
                         </div>
                       </div>
                     ))}

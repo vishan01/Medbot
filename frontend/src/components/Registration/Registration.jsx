@@ -36,7 +36,10 @@ const RegistrationPage = () => {
         uid: user.uid,
       }
       dispatch(login(data));
+      const response = await axios.get("http://localhost:8000/auth/google");
+    window.location.href = response.data.authUrl;
     }
+    
   };
 
   return (
