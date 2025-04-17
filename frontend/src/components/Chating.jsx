@@ -13,9 +13,10 @@ import {
   Headset,
   UsersRound,
   HandHelping,
+  BotMessageSquare
 } from "lucide-react";
 import { ChakraProvider } from "@chakra-ui/react";
-const Dashboard = () => {
+const Chating = () => {
   const [fitnessData, setFitnessData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -57,45 +58,32 @@ const Dashboard = () => {
   const handleClick3 = () => {
     navigate("/Services"); // Replace "/another-page" with the desired URL
   };
+  const handleClick4 = () => {
+    console.log("About Us clicked");
+    navigate("/user"); // Replace "/another-page" with the desired URL
+  };
 
-  const heartPoints = fitnessData?.formattedData.map((item) => ({
-    heartPoints: item.heart_points,
-  }));
+  const [messages, setMessages] = useState([
+    { sender: "bot", text: "Hi there! How can I help you today?" },
+  ]);
+  const [input, setInput] = useState("");
 
-  const calories = fitnessData?.formattedData.map((item) => ({
-    calories: item.calories,
-  }));
+  const handleSend = () => {
+    if (input.trim() === "") return;
 
-  const maxWeight = fitnessData?.formattedData.reduce(
-    (max, item) => (item.weight > max ? item.weight : max),
-    0
-  );
-  const maxHeight = fitnessData?.formattedData.reduce(
-    (max, item) => (item.height_in_cms > max ? item.height_in_cms : max),
-    0
-  );
+    const userMessage = { sender: "user", text: input };
+    const botReply = {
+      sender: "bot",
+      text: "Thanks for your message! (You can add real logic here.)",
+    };
 
-  let maxBPArray = [];
+    setMessages((prev) => [...prev, userMessage, botReply]);
+    setInput("");
+  };
 
-  fitnessData?.formattedData.forEach((item) => {
-    const itemMaxBP = Math.max(...item.blood_pressure);
-    if (itemMaxBP > Math.max(...maxBPArray)) {
-      maxBPArray = item.blood_pressure;
-    }
-  });
-
-  const StepCount = fitnessData?.formattedData.reduce(
-    (max, item) => (item.step_count > max ? item.step_count : max),
-    0
-  );
-  const HeartPoints = fitnessData?.formattedData.reduce(
-    (max, item) => (item.heart_points > max ? item.heart_points : max),
-    0
-  );
-  const heartrate = fitnessData?.formattedData.reduce(
-    (max, item) => (item.heart_rate > max ? item.heart_rate : max),
-    0
-  );
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSend();
+  };
 
   return (
     <>
@@ -145,6 +133,7 @@ const Dashboard = () => {
                   >
                     <Link
                       href="#"
+                      onClick={handleClick4}
                       color={colorMode === "light" ? "teal.500" : "white"}
                       fontWeight="bold"
                       _hover={{ textDecoration: "none" }}
@@ -155,11 +144,11 @@ const Dashboard = () => {
                     >
                       <Flex align="center" justify="center" gap={4}>
                         <LayoutDashboard
-                          color={"#FFFFFF"}
+                          color={"#cad2c5"}
                           size={30}
                           strokeWidth={1.5}
                         />
-                        <span className="font-semibold text-[#FFFFFF]">
+                        <span className="font-semibold text-[#cad2c5]">
                           Dashboard
                         </span>
                       </Flex>
@@ -242,9 +231,9 @@ const Dashboard = () => {
                       fontSize="xl" // Increased text size
                     >
                       <Flex align="center" justify="center" gap={4}>
-                        <Bot color={"#cad2c5"} size={36} strokeWidth={1.5} />{" "}
+                        <Bot color={"#FFFFFF"} size={36} strokeWidth={1.5} />{" "}
                         {/* Adjust size as needed */}
-                        <span className="font-semibold text-[#cad2c5]">
+                        <span className="font-semibold text-[#FFFFFF]">
                           Chatbot
                         </span>
                       </Flex>
@@ -290,19 +279,53 @@ const Dashboard = () => {
                     </Flex>
                   </Flex>
                 </Box>
-                <Flex align="center" w="100%" p={4}>
-                  <Stack spacing={4}>
-                    <HealthStatsCard
-                      weight={maxWeight}
-                      height={maxHeight}
-                      BP={maxBPArray}
-                      step={StepCount}
-                      heart={heartrate}
+                <div className="w-full mx-auto border rounded-2xl shadow-lg flex flex-col h-[92vh] ">
+                  {/* Header */}
+                  <div className="bg-[#52796f] flex justify-start items-center gap-2 text-white p-4 font-semibold text-2xl">
+                  <BotMessageSquare color="#FFFFFF" size={32} />
+                    MedBot Chat
+                  </div>
+                  {/* Chat Messages */}
+                  <div className="flex-1 p-4 space-y-3 overflow-y-auto">
+                    {messages.map((msg, index) => (
+                      <div
+                        key={index}
+                        className={`flex ${
+                          msg.sender === "user"
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
+                      >
+                        <div
+                          className={`px-4 py-2 rounded-xl max-w-[70%] text-sm ${
+                            msg.sender === "user"
+                              ? "bg-[#52796f] text-white rounded-br-none"
+                              : "bg-gray-200 text-black rounded-bl-none"
+                          }`}
+                        >
+                          {msg.text}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Input */}
+                  <div className="p-4 border-t flex items-center gap-2">
+                    <input
+                      type="text"
+                      className="flex-1 p-2 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Type a message..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
                     />
-                    <ActivityCard result={result} heartPoints={heartPoints} />
-                    <FatGraph calories={calories} />
-                  </Stack>
-                </Flex>
+                    <button
+                      onClick={handleSend}
+                      className="bg-[#52796f] text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
               </Flex>
             </Box>
           </Flex>
@@ -312,4 +335,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Chating;

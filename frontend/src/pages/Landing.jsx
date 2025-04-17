@@ -9,11 +9,13 @@ import Content from '../components/Content.jsx';
 function App() {
   return (
     <>
+      
       <Nav/>
       <Hero/>
       <Slideshow/>
       <Content/>
       <Footer/>
+      
     </>
   );
 }

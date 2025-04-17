@@ -10,6 +10,7 @@ import User from './pages/User.jsx';
 import Upload from './pages/Upload.jsx';
 import View from './pages/View.jsx';
 import ChatbotPage from './pages/ChatbotPage.jsx';
+import Services from './pages/Services.jsx';
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 function App() {
   const theme = {
@@ -34,6 +35,7 @@ function App() {
         <Route path='/Upload' element={<Upload/>} />
         <Route path='/View' element={<View/>} />
         <Route path='/ChatbotPage' element={<ChatbotPage/>} />
+        <Route path='/Services' element={<Services/>} />
       </Routes>
     </BrowserRouter>
     </ChakraProvider>

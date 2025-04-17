@@ -176,9 +176,9 @@ app.get("/fetch-data", async (req, res) => {
         height_in_cms: 0,
         sleep_hours: 0,
         body_fat_in_percent: 0,
-        menstrual_cycle_start: "",
+        heart_points: 0,
+        calories: 0,
       };
-
       const datasetMap = data.dataset;
       datasetMap.map((mydataset) => {
         const point = mydataset.point;
@@ -261,11 +261,16 @@ app.get("/fetch-data", async (req, res) => {
               }
               formattedEntry.body_fat_in_percent = bodyFat;
               break;
-            case "derived:com.google.menstruation:com.google.android.gms:aggregated":
-              // console.log("Menstrual:",mydataset.point[0]?.value)
-              formattedEntry.menstrual_cycle_start =
-                mydataset.point[0]?.value[0]?.intVal || 0;
-              break;
+            case "derived:com.google.heart_minutes.summary:com.google.android.gms:aggregated":
+                console.log("Heart Points:",mydataset.point[0]?.value)
+                formattedEntry.heart_points =
+                  mydataset.point[0]?.value[0]?.fpVal || 0;
+                break;
+              case "derived:com.google.calories.expended:com.google.android.gms:aggregated":
+                  // console.log("Menstrual:",mydataset.point[0]?.value)
+                  formattedEntry.calories =
+                    mydataset.point[0]?.value[0]?.fpVal || 0;
+                  break;
             default:
               break;
           }

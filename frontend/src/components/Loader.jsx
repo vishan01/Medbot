@@ -1,57 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-
-import fitnessLoaderGif from "./sd.gif"; // Import your fitness loader GIF
+import React from "react";
+import fitnessLoaderGif from "./sd.gif"; // Your loader gif
 
 function Loading() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 20000);
-
-    return () => clearTimeout(timer);
-  }, []);
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          backgroundColor: "black",
-        }}
-      >
-        
-        <br />
-        <motion.div
-          style={{
-            width: "100px",
-            height: "100px",
-            borderRadius: "50%",
-            overflow: "hidden",
-            position: "relative",
-          }}
-        >
-          <motion.img
-            src={fitnessLoaderGif}
-            alt="Fitness Loader"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              position: "absolute",
-            }}
-            animate={{ rotate: 360 }}
-            transition={{ loop: Infinity, duration: 13 }}
-          />
-        </motion.div>
+  return (
+    <div className="flex justify-center items-center h-screen bg-black">
+      <div className="w-24 h-24 rounded-full overflow-hidden relative animate-spin-slow">
+        <img
+          src={fitnessLoaderGif}
+          alt="Fitness Loader"
+          className="w-full h-full object-cover absolute"
+        />
       </div>
-    );
-  }
-  return <div>Content loaded successfully!</div>;
+    </div>
+  );
 }
 
 export default Loading;

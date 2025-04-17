@@ -1,9 +1,11 @@
-import './ChatbotPage.css';
-function ChatbotPage(){
+import React from 'react';
+import Chating from '../components/Chating.jsx';
+
+ function ChatbotPage(){
     return(
-        <>
-            <h1>Chatbot Page</h1>
-        </>
+        <div className='MainHomeContainer'>
+            <Chating/>
+        </div>
     );
-}
-export default ChatbotPage;
+ }
+ export default ChatbotPage;
