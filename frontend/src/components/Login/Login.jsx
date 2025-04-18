@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Login.css';
 import axios from 'axios';
 import loginImage from '../../assets/doctors.jpg'; // Assuming you have this image
-import { SignInEmail } from '../../firebase/auth';
+import { SignInEmail,SignInGoogle } from '../../firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { login } from '../../features/authSlice'; 
@@ -94,7 +94,7 @@ const LoginPage = () => {
             </div>
             
             <div className="social-login">
-              <button type="button" className="social-button google">
+              <button type="button" onClick={SignInGoogle} className="social-button google">
                 <i className="fab fa-google"></i> Continue with Google
               </button>
               <button type="button" className="social-button facebook">
